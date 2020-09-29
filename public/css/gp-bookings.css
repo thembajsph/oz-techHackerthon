@@ -1,8 +1,11 @@
-
+/* 
 
 body {
-  font-family: arial;
-  background-color: green;
-  mix-blend-mode: darken;
-}
+  /* font-family: arial; */
+  /* background-color:red; */
+  /* mix-blend-mode: darken; */
+/* }  */
 
+.smith {
+  color : white
+}

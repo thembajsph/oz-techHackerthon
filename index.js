@@ -78,37 +78,57 @@ app.get("/",  function (req, res) {
   );
 });
 
+app.post("/booking", async function (req, res) {
+
+	const days = req.body.timestamp 
+	const name = req.body.name;
+	const arrivingOn = req.body.day;
+
+	if (days && name && arrivingOn) {
+
+		await bookings.addBooking({
+			days,
+			name,
+			arrivingOn
+		})
+		
+		res.redirect("/");
+
+	} else {
+
+		function validate(value, result) {
+			if (!value) {
+				return result;
+			}
+			return {};
+		}
+
+		const daysInvalid = validate(days, {
+			style: "is-invalid",
+			message: "Enter a valid day"
+		});
+
+		const kittenNameInvalid = validate(name, {
+				style: "is-invalid",
+				message: "Enter a valid day"
+			});
+
+		const arrivingOnInvalid = validate(arrivingOn, {
+				style: "is-invalid",
+				message: "Please select a arrival day"
+			});
+		
+		//const kittens = await bookings.getBookings();
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+		res.render("index", {
+			name,
+			days,
+			kittens,
+			daysInvalid,
+			arrivingOnInvalid,
+			kittenNameInvalid
+		});
 
 
 
@@ -121,8 +141,7 @@ app.listen(PORT, function () {
 
 });
 
-
-
+// && Number(req.body.days);
 
 
 
