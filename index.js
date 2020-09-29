@@ -35,12 +35,20 @@ app.use(session({
 // initialise the flash middleware
 app.use(flash());
 
+app.use(express.static('public'));
+
 //const greetings = greet(pool);
 
 //after ive instantiate my app ,configure , expressJs as handlebars(middleware)
 app.engine('handlebars', exphbs({ defaultLayout: "main" }));
 app.set('view engine', 'handlebars');
 
+
+
+// // parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
+// // parse application/json
+app.use(bodyParser.json());
 
 
 
