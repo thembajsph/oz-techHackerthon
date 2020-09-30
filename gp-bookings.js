@@ -6,11 +6,11 @@ async function addBooking(params) {
 }
 
 async function getBookings() {
-    const kittens = await pool.query(`select id, name, 
+    const bookings = await pool.query(`select id, name, 
         staying_for as days, 
         arriving_on as "arrivingOn" from booking`);
 
-    return kittens.rows;
+    return bookings.rows;
 }
 
 async function filterBookings (criteria){

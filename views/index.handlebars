@@ -7,16 +7,16 @@
 			<form action="/booking" method="POST">
 				<div class="form-group ">
 					<label for="formGroupExampleInput">Name</label>
-					<input type="text" name="name" value="{{name}}" class="form-control {{kittenNameInvalid.style}}"
+					<input type="text" name="name" value="{{name}}" class="form-control {{bookingNameInvalid.style}}"
 						id="formGroupExampleInput" placeholder="enter name">
 					<div id="" class="invalid-feedback">
 						{{!-- Please provide a number of days. --}}
-						{{kittenNameInvalid.message}}
+						{{bookingsNameInvalid.message}}
 					</div>
 				</div>
 				<div class="form-group ">
 					<label for="formGroupExampleInput2">Time for booking</label>
-					<input type="time" value="{{timestamp}}" name="time" class="form-control {{daysInvalid.style}}"
+					<input type="time" value="{{time}}" name="time" class="form-control {{daysInvalid.style}}"
 						id="formGroupExampleInput2" placeholder="">
 					<div id="" class="invalid-feedback">
 						{{!-- Please provide a number of days. --}}
@@ -73,12 +73,12 @@
 			</tr>
 		</thead>
 		<tbody>
-			{{#each kittens}}
+			{{#each bookings}}
 			<tr>
 				<th scope="row">{{id}}</th>
-				<td>{{name}}</td>
-				<td>{{timestamp}}</td>
-				<td>{{arrivingOn}}</td>
+				<td>{{this.name}}</td>
+				<td>{{this.day}}</td>
+				<td>{{this.arrivingOn}}</td>
 			</tr>
 			{{/each}}
 

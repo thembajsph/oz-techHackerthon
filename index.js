@@ -5,7 +5,6 @@ const gpBookings = require('./gp-bookings')
 const express = require("express");
 const app = express();
 
-
 const exphbs = require('express-handlebars');
 
 // //get body parser / instantiate
@@ -50,7 +49,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // // parse application/json
 app.use(bodyParser.json());
 
+const bookings = [];
 
+console.log(bookings)
 
 // get something back on the screen, one route
 app.get("/",  function (req, res) {
@@ -78,21 +79,30 @@ app.get("/",  function (req, res) {
   );
 });
 
-app.post("/booking", async function (req, res) {
 
-	const day = req.body.time;
+
+
+app.post("/booking", function (req, res) {
+	const day = req.body.day 
 	const name = req.body.name;
-	const arrivingOn = req.body.day;
+	const arrivingOn = req.body.time;
+
+
+	// console.log(day, name, arrivingOn)
 
 	if (day && name && arrivingOn) {
-
-		await bookings.addBooking({
+		bookings.push({
+			id : bookings.length+1,
 			day,
 			name,
 			arrivingOn
-		})
-		
-		res.redirect("/");
+		});
+		res.render("index", {
+			bookings,
+			//  daysInvalid,
+			//  arrivingOnInvalid,
+			//  bookingsNameInvalid
+		});
 
 	} else {
 
@@ -103,39 +113,147 @@ app.post("/booking", async function (req, res) {
 			return {};
 		}
 
-		const daysInvalid = validate(day, {
+		const daysInvalid = validate(days, {
 			style: "is-invalid",
 			message: "Enter a valid day"
 		});
 
-		const NameInvalid = validate(name, {
+		const bookingsNameInvalid = validate(name, {
 				style: "is-invalid",
-				message: "Enter a valid time"
+				message: "Enter a valid day"
 			});
 
 		const arrivingOnInvalid = validate(arrivingOn, {
 				style: "is-invalid",
 				message: "Please select a arrival day"
 			});
-		
-		//const kittens = await bookings.getBookings();
+
+	}
 
 
-		res.render("index", {
-			name,
-			day,
-			//kittens,
-			daysInvalid,
-			arrivingOnInvalid,
-			NameInvalid
-    
-    
-    });
   
 
 
-  }
-  })
+	
+
+
+
+})
+
+// && Number(req.body.days);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// app.post("/booking", async function (req, res) {
+
+// 	const day = req.body.time;
+// 	const name = req.body.name;
+// 	const arrivingOn = req.body.day;
+
+// 	if (day && name && arrivingOn) {
+
+// 		await bookings.addBooking({
+// 			day,
+// 			name,
+// 			arrivingOn
+// 		})
+		
+// 		res.redirect("/");
+
+// 	} else {
+
+// 		function validate(value, result) {
+// 			if (!value) {
+// 				return result;
+// 			}
+// 			return {};
+// 		}
+
+// 		const daysInvalid = validate(day, {
+// 			style: "is-invalid",
+// 			message: "Enter a valid day"
+// 		});
+
+// 		const NameInvalid = validate(name, {
+// 				style: "is-invalid",
+// 				message: "Enter a valid time"
+// 			});
+
+// 		const arrivingOnInvalid = validate(arrivingOn, {
+// 				style: "is-invalid",
+// 				message: "Please select a arrival day"
+// 			});
+		
+// 		//const bookings = await bookings.getBookings();
+
+
+// 		res.render("index", {
+// 			name,
+// 			day,
+// 			//bookings,
+// 			daysInvalid,
+// 			arrivingOnInvalid,
+// 			NameInvalid
+    
+    
+//     });
+  
+
+
+//   }
+//   })
 
 const PORT = process.env.PORT || 3014
 
