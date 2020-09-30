@@ -1,0 +1,84 @@
+<div class="container">
+
+	<div class="row">
+		<div class="col-4"></div>
+		<div class="col-4">
+			<h4 class="mt-2"></h4>
+			<form action="/booking" method="POST">
+				<div class="form-group ">
+					<label for="formGroupExampleInput">Name</label>
+					<input type="text" name="name" value="{{name}}" class="form-control {{bookingsNameInvalid.style}}"
+						id="formGroupExampleInput" placeholder="enter name">
+					<div id="" class="invalid-feedback">
+
+						{{bookingsNameInvalid.message}}
+					</div>
+				</div>
+				<div class="form-group ">
+					<label for="formGroupExampleInput2">Time for booking</label>	
+					<input type="time" value="{{timestamp}}" name="time" class="form-control {{daysInvalid.style}}"
+						id="formGroupExampleInput2" placeholder="">
+					<div id="" class="invalid-feedback">
+
+						{{daysInvalid.message}}
+					</div>
+
+				</div>
+				<div class="form-group ">
+					<label for="formGroupExampleInput2">Day of Booking </label>
+					<select name="day" class="form-control {{arrivingOnInvalid.style}}" value="{{day}}">
+						<option></option>
+						<option>Monday</option>
+						<option>Tuesday</option>
+						<option>Wednesday</option>
+						<option>Thursday</option>
+						<option>Friday</option>
+					</select>
+					<div id="" class="invalid-feedback">
+						{{!-- Please provide a number of days. --}}
+						{{arrivingOnInvalid.message}}
+					</div>
+				</div>
+				<div class="form-group center">
+					<button class="btn btn-primary">Make Booking</button>
+				</div>
+			</form>
+			<div class="col-4"></div>
+		</div>
+		
+
+	</div>
+
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th scope="col">#</th>
+				<th scope="col">Name</th>
+				<th scope="col">Time for booking</th>
+				<th scope="col">Day of booking</th>
+			</tr>
+		</thead>
+		<tbody>
+			{{#each bookings}}
+			<tr>
+				<th scope="row">{{id}}</th>
+				<td>{{name}}</td>
+				<td>{{timestamp}}</td>
+				<td>{{arrivingOn}}</td>
+			</tr>
+			{{/each}}
+
+		</tbody>
+	</table>
+</div>
+
+{{!-- <div id="counter">
+	<div class="NumberCounter">0</div>
+
+</div> --}}
+
+
+
+
+
+</div>
