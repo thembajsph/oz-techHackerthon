@@ -80,14 +80,14 @@ app.get("/",  function (req, res) {
 
 app.post("/booking", async function (req, res) {
 
-	const days = req.body.timestamp 
+	const day = req.body.time;
 	const name = req.body.name;
 	const arrivingOn = req.body.day;
 
-	if (days && name && arrivingOn) {
+	if (day && name && arrivingOn) {
 
 		await bookings.addBooking({
-			days,
+			day,
 			name,
 			arrivingOn
 		})
@@ -103,14 +103,14 @@ app.post("/booking", async function (req, res) {
 			return {};
 		}
 
-		const daysInvalid = validate(days, {
+		const daysInvalid = validate(day, {
 			style: "is-invalid",
 			message: "Enter a valid day"
 		});
 
-		const kittenNameInvalid = validate(name, {
+		const NameInvalid = validate(name, {
 				style: "is-invalid",
-				message: "Enter a valid day"
+				message: "Enter a valid time"
 			});
 
 		const arrivingOnInvalid = validate(arrivingOn, {
@@ -123,15 +123,19 @@ app.post("/booking", async function (req, res) {
 
 		res.render("index", {
 			name,
-			days,
-			kittens,
+			day,
+			//kittens,
 			daysInvalid,
 			arrivingOnInvalid,
-			kittenNameInvalid
-		});
+			NameInvalid
+    
+    
+    });
+  
 
 
-
+  }
+  })
 
 const PORT = process.env.PORT || 3014
 
@@ -143,7 +147,7 @@ app.listen(PORT, function () {
 
 // && Number(req.body.days);
 
-
+  
 
 
 
