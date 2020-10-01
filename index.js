@@ -49,6 +49,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 const bookings = [];
+var ticket = 0;
 
 console.log(bookings)
 
@@ -86,7 +87,6 @@ app.post("/booking", function (req, res) {
     const name = req.body.name;
     const arrivingOn = req.body.time;
 
-
     // console.log(day, name, arrivingOn)
 
     if (day && name && arrivingOn) {
@@ -96,6 +96,8 @@ app.post("/booking", function (req, res) {
             name,
             arrivingOn
         });
+        ticket++
+
         res.render("index", {
             bookings,
             //  daysInvalid,
@@ -137,12 +139,18 @@ app.post("/booking", function (req, res) {
     })
 
     app.get("/confirm" ,function (req, res) {
-        res.render("confirm")
+        // console.log(ticket);
+        for (let i = 0; i < bookings.length; i++) {
+            var element = bookings[i];
+            console.log(element.id);
+        }
+        // var count = bookings.length;
+    res.render("confirm", {num:  element.id})
 
         
     })
 
-    const PORT = process.env.PORT || 3014
+    const PORT = process.env.PORT || 3012
     app.listen(PORT, function () {
         console.log("app started at port:", PORT);
 });
