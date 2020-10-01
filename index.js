@@ -1,7 +1,7 @@
 //set up flash for my warning messages
 const flash = require('express-flash');
 const session = require('express-session');
-const gpBookings = require('./gp-bookings')
+const gpBookings = require('./gpBookings')
 const express = require("express");
 const app = express();
 
@@ -18,7 +18,7 @@ const Pool = pg.Pool
 const connectionString = process.env.DATABASE_URL || 'postgresql://thembajoseph:themba17307@localhost:5432/gp-bookings';
 
 const pool = new Pool({
-  connectionString
+	connectionString
 });
 
 var moment = require('moment'); // require
@@ -26,9 +26,9 @@ moment().format()
 
 
 app.use(session({
-  secret: "<add a secret string here>",
-  resave: false,
-  saveUninitialized: true
+	secret: "<add a secret string here>",
+	resave: false,
+	saveUninitialized: true
 }));
 
 // initialise the flash middleware
@@ -49,56 +49,64 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // // parse application/json
 app.use(bodyParser.json());
 
+const bookingInstance = gpBookings(pool);
+
 const bookings = [];
 
 console.log(bookings)
 
 // get something back on the screen, one route
-app.get("/",  function (req, res) {
+app.get("/", async function (req, res) {
 
 
 
-  //flash warning message
-  req.flash('info',);
+	//flash warning message
+	req.flash('info',);
 
-  // // 'Flash Message Added'
-  // let greet = {
-  //   count: await greetings.overallCounter()
-  // };
+	// // 'Flash Message Added'
+	let greet = {
+		count: await bookingInstance.overallCounter()
+	};
 
- // const greetedNames = await pool.query('select id, name,count as greets, time as "timeOfGreets" from greetings');
+	const greetedNames = await pool.query('select id, name , day, id as bookings,  arriving_on  as "timeOfGreets" from drbooking')
 
-
-  // put it again the settingsbill data on screen , render it on second parameter:
-  res.render("index", 
-  //{
-    //greet,
-    // timeOfGreets,
-   // names: await greetedNames.rows, title: "Home"
- // }
-  );
+	// put it again the settingsbill data on screen , render it on second parameter:
+	res.render("index",
+		{
+			bookings,
+		//	timeOfGreets,
+			names: await greetedNames.rows, title: "Home"
+		} 
+	);
 });
 
 
 
 
-app.post("/booking", function (req, res) {
-	const day = req.body.day 
+app.post("/booking", async function (req, res) {
+
+	const day = req.body.day
 	const name = req.body.name;
-	const arrivingOn = req.body.time;
+	const arriving_on = req.body.time;
 
+   var obj = {
+	  name,
+	   day,
+	   arriving_on
+   }
 
-	// console.log(day, name, arrivingOn)
+	await bookingInstance.addBooking(obj)
 
-	if (day && name && arrivingOn) {
+	if (day && name && arriving_on) {
 		bookings.push({
-			id : bookings.length+1,
-			day,
+			id: bookings.length + 1,
 			name,
-			arrivingOn
+			day,
+			arriving_on
 		});
 		res.render("index", {
 			bookings,
+
 			//  daysInvalid,
 			//  arrivingOnInvalid,
 			//  bookingsNameInvalid
@@ -119,22 +127,22 @@ app.post("/booking", function (req, res) {
 		});
 
 		const bookingsNameInvalid = validate(name, {
-				style: "is-invalid",
-				message: "Enter a valid day"
-			});
+			style: "is-invalid",
+			message: "Enter a valid day"
+		});
 
 		const arrivingOnInvalid = validate(arrivingOn, {
-				style: "is-invalid",
-				message: "Please select a arrival day"
-			});
+			style: "is-invalid",
+			message: "Please select a arrival day"
+		});
 
 	}
 
 
-  
 
 
-	
+
+
 
 
 
@@ -209,7 +217,7 @@ app.post("/booking", function (req, res) {
 // 			name,
 // 			arrivingOn
 // 		})
-		
+
 // 		res.redirect("/");
 
 // 	} else {
@@ -235,7 +243,7 @@ app.post("/booking", function (req, res) {
 // 				style: "is-invalid",
 // 				message: "Please select a arrival day"
 // 			});
-		
+
 // 		//const bookings = await bookings.getBookings();
 
 
@@ -246,10 +254,10 @@ app.post("/booking", function (req, res) {
 // 			daysInvalid,
 // 			arrivingOnInvalid,
 // 			NameInvalid
-    
-    
+
+
 //     });
-  
+
 
 
 //   }
@@ -259,13 +267,13 @@ const PORT = process.env.PORT || 3014
 
 
 app.listen(PORT, function () {
-  console.log("app started at port:", PORT);
+	console.log("app started at port:", PORT);
 
 });
 
 // && Number(req.body.days);
 
-  
+
 
 
 
