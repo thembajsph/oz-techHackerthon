@@ -1,6 +1,6 @@
 async function addBooking(params) {
 
-    const INSERT_QUERY = "insert into booking (name, staying_for, arriving_on) values ";
+    const INSERT_QUERY = "insert into booking (name, staying_for, arriving_on) values ($1, $2, $3)";
     await pool.query(INSERT_QUERY, [params.name, params.days, params.arrivingOn]);
 
 }
