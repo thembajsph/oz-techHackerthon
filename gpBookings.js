@@ -96,6 +96,11 @@ const getCountForUser = async (name) => {
   //return 0;
 }
 
+async function resetFtn() {
+
+  let restart = await pool.query('DELETE FROM drbooking ');
+  return restart;
+};
 
 
 
@@ -156,7 +161,8 @@ return  {
     existDbAndCount,
     enterName,
     getName,
-    setName
+    setName,
+    resetFtn
 
 }
 

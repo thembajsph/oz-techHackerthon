@@ -51,10 +51,10 @@ app.use(bodyParser.json());
 
 const bookingInstance = gpBookings(pool);
 
-const bookings = [];
+// const bookings = [];
+var ticket = 0;
 
-console.log(bookings)
-
+// console.log(bookings)
 // get something back on the screen, one route
 app.get("/", async function (req, res) {
 
@@ -63,23 +63,43 @@ app.get("/", async function (req, res) {
 	//flash warning message
 	req.flash('info',);
 
-	// // 'Flash Message Added'
-	let greet = {
-		count: await bookingInstance.overallCounter()
-	};
 
-	const greetedNames = await pool.query('select id, name , day, id as bookings,  arriving_on  as "timeOfGreets" from drbooking')
+	// // 'Flash Message Added'
+
+	// const greetedNames = await pool.query('select id, name , day, id as bookings,  arriving_on  as "timeOfGreets" from drbooking')
 
 	// put it again the settingsbill data on screen , render it on second parameter:
 	res.render("index",
 		{
-			bookings,
-		//	timeOfGreets,
-			names: await greetedNames.rows, title: "Home"
-		} 
+			// bookings : greetedNames.rows,
+
+			title: "Home"
+		}
 	);
 });
 
+
+app.get('/overview', function (re, res) {
+	res.render('grid');
+})
+
+
+app.get("/bookings/:name", async function (req, res) {
+	const currentName = req.params.name;
+
+	//
+	const greetedNames = await pool.query('select id, name , day, id as bookings,  arriving_on  as "timeOfGreets" from drbooking where name = $1', [currentName])
+
+	// put it again the settingsbill data on screen , render it on second parameter:
+	res.render("index",
+		{
+			bookings: greetedNames.rows,
+
+			title: "Home",
+			name: currentName
+		}
+	);
+});
 
 
 
@@ -89,192 +109,95 @@ app.post("/booking", async function (req, res) {
 	const name = req.body.name;
 	const arriving_on = req.body.time;
 
-   var obj = {
-	  name,
-	   day,
-	   arriving_on
-   }
+	var obj = {
+		name,
+		day,
+		arriving_on
+	}
 
 	await bookingInstance.addBooking(obj)
 
-	if (day && name && arriving_on) {
-		bookings.push({
-			id: bookings.length + 1,
-			name,
-			day,
-			arriving_on
-		});
-		res.render("index", {
-			bookings,
-
-			//  daysInvalid,
-			//  arrivingOnInvalid,
-			//  bookingsNameInvalid
-		});
-
-	} else {
-
-		function validate(value, result) {
-			if (!value) {
-				return result;
-			}
-			return {};
-		}
-
-		const daysInvalid = validate(days, {
-			style: "is-invalid",
-			message: "Enter a valid day"
-		});
-
-		const bookingsNameInvalid = validate(name, {
-			style: "is-invalid",
-			message: "Enter a valid day"
-		});
-
-		const arrivingOnInvalid = validate(arrivingOn, {
-			style: "is-invalid",
-			message: "Please select a arrival day"
-		});
-
-	}
-
-
-
-
-
-
-
-
+	res.redirect("/bookings/" + name)
 
 })
 
-// && Number(req.body.days);
+app.get("/confirm/:id", async function (req, res) {
+	const name = req.body.name;
+	const greetedNames = await pool.query('select id, from drbooking where id = $1', [req.params.id]);
 
 
+	console.log("greeted names: " + greetedNames);
+	// for (let i = 0; i < greetedNames.length; i++) {
+	// 	var element = greetedNames[i];
+	// 	console.log(element.id);
+	// }
+	// var count = bookings.length;
+	res.render("confirm", { num: greetedNames.rows[0].id })
+})
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// app.post("/booking", async function (req, res) {
-
-// 	const day = req.body.time;
-// 	const name = req.body.name;
-// 	const arrivingOn = req.body.day;
-
-// 	if (day && name && arrivingOn) {
-
-// 		await bookings.addBooking({
-// 			day,
-// 			name,
-// 			arrivingOn
-// 		})
-
-// 		res.redirect("/");
-
-// 	} else {
-
-// 		function validate(value, result) {
-// 			if (!value) {
-// 				return result;
-// 			}
-// 			return {};
-// 		}
-
-// 		const daysInvalid = validate(day, {
-// 			style: "is-invalid",
-// 			message: "Enter a valid day"
-// 		});
-
-// 		const NameInvalid = validate(name, {
-// 				style: "is-invalid",
-// 				message: "Enter a valid time"
-// 			});
-
-// 		const arrivingOnInvalid = validate(arrivingOn, {
-// 				style: "is-invalid",
-// 				message: "Please select a arrival day"
-// 			});
-
-// 		//const bookings = await bookings.getBookings();
-
-
-// 		res.render("index", {
-// 			name,
-// 			day,
-// 			//bookings,
-// 			daysInvalid,
-// 			arrivingOnInvalid,
-// 			NameInvalid
-
-
-//     });
-
-
-
-//   }
-//   })
 
 const PORT = process.env.PORT || 3014
-
-
 app.listen(PORT, function () {
 	console.log("app started at port:", PORT);
 
+
+
+
 });
 
-// && Number(req.body.days);
 
 
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		// 	} else {
+
+		// 		function validate(value, result) {
+		// 			if (!value) {
+		// 				return result;
+		// 			}
+		// 			return {};
+		// 		}
+
+		// 		const daysInvalid = validate(days, {
+		// 			style: "is-invalid",
+		// 			message: "Enter a valid day"
+		// 		});
+
+		// 		const bookingsNameInvalid = validate(name, {
+		// 			style: "is-invalid",
+		// 			message: "Enter a valid day"
+		// 		});
+
+		// 		const arrivingOnInvalid = validate(arrivingOn, {
+		// 			style: "is-invalid",
+		// 			message: "Please select a arrival day"
+		// 		});
+
+		// 	}
+
+		// })
+
+		// && Number(req.body.days);

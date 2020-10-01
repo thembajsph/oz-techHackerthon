@@ -8,7 +8,11 @@
 				<div class="form-group ">
 					<label for="formGroupExampleInput">Name</label>
 					<input type="text" name="name" value="{{name}}" class="form-control {{bookingNameInvalid.style}}"
-						id="formGroupExampleInput" placeholder="enter name">
+						{{!-- id="formGroupExampleInput" placeholder="enter name"
+					{{name}}
+
+					<input type="hidden" name="name" value="{{name}}" >
+					
 					<div id="" class="invalid-feedback">
 						{{!-- Please provide a number of days. --}}
 						{{bookingsNameInvalid.message}}
@@ -45,6 +49,11 @@
 			</form>
 			<div class="col-4"></div>
 		</div>
+	<span>
+       <a href="/reset"> <button class="textClear center" type="submit" onclick="resetAndClear();" name="button">Reset!</button> </a>
+    </span>
+	
+		<a href="overview">Next</a>
 		{{!-- <div class="col-8">
 		<h4 class="mt-2"></h4> --}}
 
@@ -68,8 +77,8 @@
 			<tr>
 				<th scope="col">#</th>
 				<th scope="col">Name</th>
-				<th scope="col">Time for booking</th>
 				<th scope="col">Day of booking</th>
+				<th scope="col">Time for booking</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -78,7 +87,10 @@
 				<th scope="row">{{id}}</th>
 				<td>{{this.name}}</td>
 				<td>{{this.day}}</td>
-				<td>{{this.arriving_on}}</td>
+				<td>{{this.timeOfGreets}}</td>
+				<td>
+					<a class="btn btn-primary" href="/confirm/{{id}}">View</a>
+				</td>
 			</tr>
 			{{/each}}
 
@@ -88,6 +100,17 @@
 
 
 
+
+
+</div>
+
+<div class="container">
+<div class="btn-holder">
+<a href="/confirm">
+{{!-- <button> CONFIRM</button> --}}
+</a>
+</div>
+</div>
 
 
 </div>

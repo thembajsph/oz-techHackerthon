@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{{!-- <head>
+    <meta charset="UTF-8">
+    <title>Graph</title>
+   <link rel="stylesheet" href="../public/css/grid.css">
+   <base href="/">
+
+</head> --}}
+
+<body>
+    <br>
+    <div class="headeing">
+        <u><b><h2> Weekly Overview</h2></b></u>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div id="chartDiv" style="width:50%; height:300px; margin:0 auto;"></div>
+    <!--<script src="../grid.js"></script>-->
+    {{!-- <script src="../grid.js"></script> --}}
+        <script src="https://code.jscharting.com/2.9.0/jscharting.js"></script>
+
+    <script >
+   JSC.Chart('chartDiv', {
+        type: 'line',
+        series: [
+           {
+              points: [
+                 {x: 'Monday', y: 3},
+                 {x: 'Tuesday', y: 2},
+                 {x: 'Wednesday', y: 5},
+                 {x: 'Thursday', y: 4},
+                 {x: 'Friday', y: 2}
+              ]
+           }
+        ]
+     });
+    </script>
+    
+</body>
+
+</html>
