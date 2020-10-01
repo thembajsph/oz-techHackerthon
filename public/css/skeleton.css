@@ -136,6 +136,12 @@
   /* Buttons
   –––––––––––––––––––––––––––––––––––––––––––––––––– */
   .button,
+
+  .container .btn-holder {
+    justify-content: flex-end;
+    display: flex;
+    
+  }
   button,
   input[type="submit"],
   input[type="reset"],
@@ -191,8 +197,11 @@
     color: #FFF;
     background-color: #1EAEDB;
     border-color: #1EAEDB; }
+
+    
   
   
+
   /* Forms
   –––––––––––––––––––––––––––––––––––––––––––––––––– */
   input[type="email"],
