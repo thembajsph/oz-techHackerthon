@@ -12,7 +12,7 @@
 <body>
     <br>
     <div class="headeing">
-        <u><b><h2> Weekly Overview</h2></b></u>
+        <u><b><h2> Weekly Bookings Overview</h2></b></u>
     </div>
     <br>
     <br>
@@ -24,17 +24,16 @@
         <script src="https://code.jscharting.com/2.9.0/jscharting.js"></script>
 
     <script >
+
+       /*
+       {{{points}}}
+       */
+
    JSC.Chart('chartDiv', {
         type: 'line',
         series: [
            {
-              points: [
-                 {x: 'Monday', y: 3},
-                 {x: 'Tuesday', y: 2},
-                 {x: 'Wednesday', y: 5},
-                 {x: 'Thursday', y: 4},
-                 {x: 'Friday', y: 2}
-              ]
+              points: {{{points}}}
            }
         ]
      });

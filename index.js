@@ -79,8 +79,46 @@ app.get("/", async function (req, res) {
 });
 
 
-app.get('overview', function (req, res) {
-	res.render('grid');
+app.get('/overview', async function (req, res) {
+
+	// select day, count(*) from drbooking group by day
+
+	
+	
+
+	const weekDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"
+];
+
+	// weekDays.map(function(weekDay){
+	
+	const weekDaysWithCount = [];
+
+	for (const weekDay of weekDays) {
+
+		const dayData = await pool.query('select count(*) from drbooking group by day having day = $1', [weekDay])
+		
+		if (dayData.rows.length > 0) {
+			weekDaysWithCount.push({
+				x: weekDay,
+				y: Number(dayData.rows[0].count)
+			})
+		} else {
+			weekDaysWithCount.push({
+				x: weekDay,
+				y: 0
+			})
+		}
+
+	}
+
+	console.log(weekDaysWithCount);
+
+	// })
+
+
+	res.render('grid', {
+		points : JSON.stringify(weekDaysWithCount)
+	});
 })
 
 
