@@ -123,7 +123,7 @@ app.post("/booking", async function (req, res) {
 
 app.get("/confirm/:id", async function (req, res) {
 	const name = req.body.name;
-	const greetedNames = await pool.query('select id, from drbooking where id = $1', [req.params.id]);
+	const greetedNames = await pool.query('select id from drbooking where id = $1', [req.params.id]);
 
 
 	console.log("greeted names: " + greetedNames);
