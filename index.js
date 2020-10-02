@@ -79,7 +79,7 @@ app.get("/", async function (req, res) {
 });
 
 
-app.get('/overview', function (re, res) {
+app.get('overview', function (req, res) {
 	res.render('grid');
 })
 
@@ -88,7 +88,7 @@ app.get("/bookings/:name", async function (req, res) {
 	const currentName = req.params.name;
 
 	//
-	const greetedNames = await pool.query('select id, name , day, id as bookings,  arriving_on  as "timeOfGreets" from drbooking where name = $1', [currentName])
+	const greetedNames = await pool.query('select id, name, day, id as bookings,  arriving_on  as "timeOfGreets" from drbooking where name = $1', [currentName])
 
 	// put it again the settingsbill data on screen , render it on second parameter:
 	res.render("index",
@@ -127,11 +127,7 @@ app.get("/confirm/:id", async function (req, res) {
 
 
 	console.log("greeted names: " + greetedNames);
-	// for (let i = 0; i < greetedNames.length; i++) {
-	// 	var element = greetedNames[i];
-	// 	console.log(element.id);
-	// }
-	// var count = bookings.length;
+	 
 	res.render("confirm", { num: greetedNames.rows[0].id })
 })
 
